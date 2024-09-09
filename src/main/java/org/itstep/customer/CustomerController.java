@@ -2,6 +2,8 @@ package org.itstep.customer;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
@@ -15,5 +17,17 @@ public class CustomerController {
         return customerService.findAll();
     }
 
+    //PathVariable
+    @GetMapping(value="/customers/{field}", produces="application/json")
+    public List<Customer> getCustomersSorted(@PathVariable String field){
+        return customerService.findByOrderBy(field);
+    }
+
+
+    //RequestParam
+    @GetMapping(value="/customers/", produces="application/json")
+    public List<Customer> getCustomersSorted2(@RequestParam String field){
+        return customerService.findByOrderBy(field);
+    }
 
 } 
