@@ -7,7 +7,6 @@ import org.itstep.customer.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.text.DateFormat;
@@ -16,6 +15,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 @Service
 public class ReportService {
     @Autowired
@@ -26,14 +26,15 @@ public class ReportService {
         JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
         JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(customers);
         Map<String, Object> parameters = new HashMap<>();
-        parameters.put("createdBy","Artem");
+        parameters.put("createdBy","Alex");
         JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport,parameters,dataSource);
         if (reportFormat.equalsIgnoreCase("html")){
-            JasperExportManager.exportReportToHtmlFile(jasperPrint, "classpath:reports/"+report);
+            File file2 = ResourceUtils.getFile("classpath:reports/");
+            JasperExportManager.exportReportToHtmlFile(jasperPrint, file2.getAbsolutePath()+"/"+report);
         }
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH🇲🇲ss");
         Calendar cal = Calendar.getInstance();
         String sdate = dateFormat.format(cal.getTime());
         return "report has been generated: "+sdate;
     }
-}
+} 
